@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090d0b">
+<title>RUGBY FIT</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;--bg:#090d0b;--panel:#172019;--panel2:#1d2b20;--green:#b7ff35;--muted:#a1b3a5;--line:#344338}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5f7f4;font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+header{padding:22px 18px 16px;background:#101812;border-bottom:1px solid #293b30}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:1.5px;color:var(--green);font-size:23px}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--green);color:#101812;display:grid;place-items:center;font-size:23px}
+.kicker{color:var(--muted);font-size:11px;letter-spacing:1.4px;margin-top:3px}
+h1{font-size:27px;line-height:1.12;margin:22px 0 7px;letter-spacing:-.7px}h2{font-size:21px;margin:0 0 14px}h3{font-size:16px;margin:0}
+.sub{color:var(--muted);font-size:14px;line-height:1.45}
+.hero{background:linear-gradient(135deg,#203b24,#101812 70%);border:1px solid #334b35;border-radius:17px;padding:18px;margin-top:18px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}.stat{background:#1a281d;border-radius:12px;padding:14px}.stat strong{display:block;color:var(--green);font-size:28px}.stat span{font-size:11px;color:var(--muted);letter-spacing:1px}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:9px;background:#111a13;position:sticky;top:0;z-index:5;border-bottom:1px solid #293b30}
+nav button{border:0;background:transparent;color:#c0cec3;padding:11px 3px;border-radius:9px;font-size:12px;font-weight:700}nav button.active{background:var(--green);color:#101812}
+main{padding:18px;max-width:680px;margin:auto}.panel{background:var(--panel);border:1px solid #26372a;border-radius:14px;padding:15px;margin:12px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.muted{color:var(--muted);font-size:13px}.green{color:var(--green)}.progress{height:9px;background:var(--line);border-radius:20px;overflow:hidden;margin-top:10px}.bar{height:100%;background:var(--green);width:0;transition:width .2s}
+.weekgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:14px 0}.weekbtn{background:var(--panel2);color:white;border:1px solid var(--line);border-radius:9px;padding:11px 4px;font-weight:800}.weekbtn.selected{background:var(--green);color:#101812;border-color:var(--green)}
+.session{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.session:last-child{border:0}.session .info{flex:1}.session small{display:block;color:var(--muted);margin-top:4px}.session input{width:22px;height:22px;accent-color:var(--green)}
+button.primary{width:100%;background:var(--green);color:#101812;border:0;border-radius:10px;padding:14px;font-weight:900;letter-spacing:.5px;margin-top:12px}
+button.secondary{background:#223126;color:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-weight:700}
+label{display:block;color:var(--muted);font-size:12px;margin:12px 0 6px}input,select,textarea{width:100%;background:#0e1510;border:1px solid var(--line);border-radius:9px;color:white;padding:12px;font:inherit}
+.timer{font-size:52px;font-weight:800;text-align:center;color:var(--green);font-variant-numeric:tabular-nums;padding:20px 0}
+.actions{display:flex;gap:8px}.actions button{flex:1}
+.hidden{display:none!important}.tag{font-size:11px;background:#263a29;color:var(--green);padding:5px 8px;border-radius:20px;font-weight:800}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:22px}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="logo">⚡</div><div>RUGBY FIT<div class="kicker">TRAINING SYSTEM / 5 WEEK PLAN</div></div></div>
+ <div class="hero">
+  <div class="tag">YOUR TRAINING JOURNEY</div>
+  <h1>BUILD YOUR<br>ENDURANCE.</h1>
+  <div class="sub">Five weeks. Consistent training. Better rugby fitness.</div>
+  <div class="stats"><div class="stat"><strong id="doneCount">0/20</strong><span>RUN SESSIONS DONE</span></div><div class="stat"><strong id="percent">0%</strong><span>PLAN COMPLETED</span></div></div>
+  <div class="progress"><div class="bar" id="mainBar"></div></div>
+ </div>
+</header>
+<nav>
+ <button class="active" data-tab="home">HOME</button><button data-tab="schedule">SCHEDULE</button><button data-tab="progress">PROGRESS</button><button data-tab="timer">STOPWATCH</button>
+</nav>
+<main>
+<section id="home">
+ <h2>Dashboard</h2><div class="muted">Choose your current training week.</div>
+ <div class="weekgrid" id="weekButtons"></div>
+ <div class="panel"><div class="row"><h3 id="weekTitle">WEEK 01</h3><span class="tag" id="weekDone">0/4 DONE</span></div><div id="homeSessions"></div></div>
+ <div class="panel"><h3>Weekly rugby training</h3><div class="row" style="margin-top:13px"><span>Tuesday</span><span class="tag">RUGBY</span></div><div class="row" style="margin-top:13px"><span>Thursday</span><span class="tag">RUGBY</span></div><p class="muted">Rugby practices are additional to the four planned running sessions. Adjust the running sessions if you need recovery.</p></div>
+ <button class="primary" onclick="showTab('schedule')">VIEW FULL PROGRAMME</button>
+</section>
+<section id="schedule" class="hidden"><h2>Training schedule</h2><div class="muted">Select a week and tick off sessions as you complete them.</div><div class="weekgrid" id="weekButtons2"></div><div id="scheduleList"></div><div class="panel"><h3>Every week</h3><p>Tuesday — Rugby training</p><p>Thursday — Rugby training</p><p class="muted">Saturday — Rest day. Keep easy runs conversational and take walking breaks when needed.</p></div></section>
+<section id="progress" class="hidden"><h2>Your progress</h2><div class="panel"><div class="muted">OVERALL COMPLETION</div><div class="timer" id="bigPercent">0%</div><div class="progress"><div class="bar" id="progressBar"></div></div><p id="progressText" class="muted">0 of 20 running sessions completed</p></div><div id="weeklyProgress"></div><div class="panel"><h3>Session log</h3><div id="logsList" class="muted" style="margin-top:12px">No sessions logged yet.</div></div></section>
+<section id="timer" class="hidden"><h2>Running stopwatch</h2><div class="panel"><div class="timer" id="clock">00:00</div><div class="actions"><button class="secondary" id="startBtn">START</button><button class="secondary" id="pauseBtn">PAUSE</button><button class="secondary" id="resetBtn">RESET</button></div><label>Exercise</label><select id="exercise"><option>Easy running</option><option>Field laps</option><option>Walk and jog</option><option>Rugby training</option></select><label>Distance (km)</label><input id="distance" type="number" min="0" step="0.1" placeholder="e.g. 1.5"><label>Session notes</label><textarea id="note" rows="2" placeholder="How did it feel?"></textarea><button class="primary" id="saveLog">SAVE SESSION</button></div><p class="muted">The stopwatch runs while this page is open. Your saved sessions stay on this device.</p></section>
+</main>
+<footer>RUGBY FIT · CONSISTENCY BUILDS PERFORMANCE</footer>
+<script>
+const weeks=[
+ ["2 laps","10 min easy run","2 laps","15 min easy run"],
+ ["2 laps","12 min easy run","2 laps","15 min easy run"],
+ ["2 laps","15 min easy run","3 laps","15 min easy run"],
+ ["3 laps","15 min easy run","3 laps","18 min easy run"],
+ ["3 laps","15 min easy run","3 laps","20 min easy run"]
+],days=["Monday","Wednesday","Friday","Sunday"];
+let state={checks:{},logs:[]};try{state={...state,...JSON.parse(localStorage.getItem("rugbyFitState")||"{}")}}catch(e){}
+let selected=0,elapsed=0,startedAt=null,interval=null;
+function save(){localStorage.setItem("rugbyFitState",JSON.stringify(state));render()}
+function checkedCount(){return Object.values(state.checks).filter(Boolean).length}
+function render(){
+ const count=checkedCount(),pct=Math.round(count/20*100);
+ document.getElementById("doneCount").textContent=count+"/20";document.getElementById("percent").textContent=pct+"%";document.getElementById("mainBar").style.width=pct+"%";
+ document.getElementById("bigPercent").textContent=pct+"%";document.getElementById("progressBar").style.width=pct+"%";document.getElementById("progressText").textContent=count+" of 20 running sessions completed";
+ document.getElementById("weekButtons").innerHTML=weekBtns();document.getElementById("weekButtons2").innerHTML=weekBtns();
+ document.getElementById("weekTitle").textContent="WEEK 0"+(selected+1);
+ document.getElementById("weekDone").textContent=weeks[selected].filter((_,i)=>state.checks[selected+"-"+i]).length+"/4 DONE";
+ document.getElementById("homeSessions").innerHTML=sessionRows(true);
+ document.getElementById("scheduleList").innerHTML="<h3 class='green'>WEEK 0"+(selected+1)+"</h3>"+sessionRows(false);
+ document.getElementById("weeklyProgress").innerHTML=weeks.map((w,i)=>{let n=w.filter((_,j)=>state.checks[i+"-"+j]).length;return `<div class="panel"><div class="row"><b>WEEK 0${i+1}</b><span class="green">${n}/4</span></div><div class="progress"><div class="bar" style="width:${n/4*100}%"></div></div></div>`}).join("");
+ document.getElementById("logsList").innerHTML=state.logs.length?state.logs.map(l=>`<div class="session"><div class="info"><b>${esc(l.exercise)}</b><small>${esc(l.distance)} km · ${esc(l.note||"No note")}</small></div><span class="green">${esc(l.time)}</span></div>`).join(""):"No sessions logged yet.";
+}
+function weekBtns(){return weeks.map((_,i)=>`<button class="weekbtn ${i===selected?"selected":""}" onclick="selected=${i};render()">W${i+1}</button>`).join("")}
+function sessionRows(compact){return weeks[selected].map((r,i)=>`<div class="session"><div class="info"><b>${days[i]}</b><small>${r}</small></div><input aria-label="Mark ${days[i]} complete" type="checkbox" ${state.checks[selected+"-"+i]?"checked":""} onchange="state.checks['${selected}-${i}']=this.checked;save()"></div>`).join("")}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function showTab(t){document.querySelectorAll("main section").forEach(s=>s.classList.toggle("hidden",s.id!==t));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===t));}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+function fmt(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function updateClock(){let now=elapsed+(startedAt?Math.floor((Date.now()-startedAt)/1000):0);document.getElementById("clock").textContent=fmt(now)}
+document.getElementById("startBtn").onclick=()=>{if(!startedAt){startedAt=Date.now();interval=setInterval(updateClock,250)}};
+document.getElementById("pauseBtn").onclick=()=>{if(startedAt){elapsed+=Math.floor((Date.now()-startedAt)/1000);startedAt=null;clearInterval(interval);updateClock()}};
+document.getElementById("resetBtn").onclick=()=>{elapsed=0;startedAt=null;clearInterval(interval);updateClock()};
+document.getElementById("saveLog").onclick=()=>{if(startedAt){elapsed+=Math.floor((Date.now()-startedAt)/1000);startedAt=null;clearInterval(interval)}if(elapsed===0){alert("Start the stopwatch and record a session first.");return}state.logs.unshift({exercise:document.getElementById("exercise").value,distance:document.getElementById("distance").value||"0",note:document.getElementById("note").value,time:fmt(elapsed)});elapsed=0;updateClock();document.getElementById("distance").value="";document.getElementById("note").value="";save();};
+render();
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body></html>
